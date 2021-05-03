@@ -1,14 +1,14 @@
 clc
 close all
 clear all
-##path= ["haz_300mm.jpg" ; "haz_305mm.jpg" ; "haz_310mm.jpg"];
-##for n=1:3
-n=1
-path="haz_305mm.jpg"
+path= ["haz_300mm.jpg" ; "haz_305mm.jpg" ; "haz_310mm.jpg"];
+for n=1:3
+##n=1
+##path="haz_305mm.jpg"
 img01 = im2double(rgb2gray(imread(["mediciones_tp1/" path(n,:)])));
-figure();
-imshow(img01);
-axis("tic", "label");
+##figure();
+##imshow(img01);
+##axis("tic", "label");
 
 for i = 1:rows(img01)
     x_umbrales01 = find(img01(i,:) > 0.6);
@@ -19,7 +19,7 @@ for i = 1:rows(img01)
     endif
 endfor
 [ancho_maximo_y, y_max_ancho01_index] = max(ancho01);
-y_max_ancho01_index=round(mean(find(ancho01 > 0.7 *ancho_maximo_y)));
+y_max_ancho01_index=round(mean(find(ancho01 > 0.8 *ancho_maximo_y)));
 
 for i = 1:columns(img01)
     y_umbrales01 = find(img01(:,i) > 0.7);
@@ -30,7 +30,7 @@ for i = 1:columns(img01)
     endif
 endfor
 [alto_maximo_x, x_max_alto01_index] = max(alto01);
-x_max_alto01_index=round(mean(find(alto01 > 0.7 *alto_maximo_x)));
+x_max_alto01_index=round(mean(find(alto01 > 0.3 *alto_maximo_x)));
 
 figure();
 hold on;
@@ -62,7 +62,7 @@ y01 = y01 - y_cent01;%segundo paramentro de ajuste
 
 %calcula el err cuad mmedio entre una gausseana y 'x'
 %gausseana es la definida como el haz gausseano cuando varia x y =0 y viceversa
-parametros01 = fminsearch(@(param) err_cuad_gauss(param, [x01; med_max_x01]), [1, 1]);
+##parametros01 = fminsearch(@(param) err_cuad_gauss(param, [x01; med_max_x01]), [1, 1]);
 
 %cuidado puedo converger a minimo local o algo asi
 
@@ -93,4 +93,4 @@ legend("Medición", label_ajustes, "location", "northwest");
 legend("boxoff");
 
 
-##endfor
+endfor
