@@ -6,6 +6,7 @@ for n=1:3
 ##n=1
 ##path="haz_305mm.jpg"
 img01 = im2double(rgb2gray(imread(["mediciones_tp1/" path(n,:)])));
+##img01=img01';
 ##figure();
 ##imshow(img01);
 ##axis("tic", "label");
@@ -32,7 +33,7 @@ endfor
 [alto_maximo_x, x_max_alto01_index] = max(alto01);
 x_max_alto01_index=round(mean(find(alto01 > 0.3 *alto_maximo_x)));
 
-figure();
+fig=figure();
 hold on;
 imshow(gray2ind(img01), jet());
 plot(1:(columns(img01)), y_max_ancho01_index*ones(1,columns(img01)), "-k", "linewidth", 2);
@@ -41,7 +42,9 @@ plot( x_max_alto01_index*ones(rows(img01),1),1:(rows(img01)), "-k", "linewidth",
 axis("tic", "label");
 xlabel("x / px");
 ylabel("y / px");
-print -djpg [path(n,:) ,".jpg"]
+nombre=["centro_" , path(n,:)];
+saveas (fig,nombre,"jpg")
+
 
 med_max_x01 = img01(y_max_ancho01_index, :);
 x01 = 0:(columns(img01)-1);
@@ -80,12 +83,12 @@ legend("boxoff");
 
 
 %Ajuste por y
-parametros01 = fminsearch(@(param) err_cuad_gauss(param, [y01'; med_max_y01]), [1, 1]);
+parametros01 = fminsearch(@(param) err_cuad_gauss(param, [y01; med_max_y01']), [1, 1]);
 
 figure();
 hold on;
-plot(x01, med_max_x01, "linewidth", 2);
-plot(x01, arrayfun(@(x) gaussiana(x, 0, parametros01(1), parametros01(2)), x01), "linewidth", 2);
+plot(y01, med_max_y01, "linewidth", 2);
+plot(y01, arrayfun(@(x) gaussiana(x, 0, parametros01(1), parametros01(2)), y01), "linewidth", 2);
 grid on;
 xlabel("x / px");
 ylabel("I");
