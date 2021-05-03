@@ -1,8 +1,10 @@
 clc
 close all
 clear all
-path= ["haz_300mm.jpg" ; "haz_305mm.jpg" ; "haz_310mm.jpg"];
-for n=1:3
+##path= ["haz_300mm.jpg" ; "haz_305mm.jpg" ; "haz_310mm.jpg"];
+##for n=1:3
+n=1
+path="haz_305mm.jpg"
 img01 = im2double(rgb2gray(imread(["mediciones_tp1/" path(n,:)])));
 figure();
 imshow(img01);
@@ -16,7 +18,8 @@ for i = 1:rows(img01)
         ancho01(i,1) = 0;
     endif
 endfor
-[~, y_max_ancho01] = max(ancho01);
+[ancho_maximo_y, y_max_ancho01_index] = max(ancho01);
+y_max_ancho01_index=round(mean(find(ancho01 > 0.7 *ancho_maximo_y)));
 
 for i = 1:columns(img01)
     y_umbrales01 = find(img01(:,i) > 0.7);
@@ -26,20 +29,21 @@ for i = 1:columns(img01)
         alto01(1,i) = 0;
     endif
 endfor
-[~, x_max_ancho01] = max(alto01);
+[alto_maximo_x, x_max_alto01_index] = max(alto01);
+x_max_alto01_index=round(mean(find(alto01 > 0.7 *alto_maximo_x)));
 
 figure();
 hold on;
 imshow(gray2ind(img01), jet());
-plot(1:(columns(img01)), y_max_ancho01*ones(1,columns(img01)), "-k", "linewidth", 2);
-plot( x_max_ancho01*ones(rows(img01),1),1:(rows(img01)), "-k", "linewidth", 2);
+plot(1:(columns(img01)), y_max_ancho01_index*ones(1,columns(img01)), "-k", "linewidth", 2);
+plot( x_max_alto01_index*ones(rows(img01),1),1:(rows(img01)), "-k", "linewidth", 2);
 
 axis("tic", "label");
 xlabel("x / px");
 ylabel("y / px");
 print -djpg [path(n,:) ,".jpg"]
 
-med_max_x01 = img01(y_max_ancho01, :);
+med_max_x01 = img01(y_max_ancho01_index, :);
 x01 = 0:(columns(img01)-1);
 
 #busco el valor central de la medicion y corro el eje x
@@ -47,7 +51,7 @@ x_umbr01 = find(med_max_x01 > 0.3);
 x_cent01 = floor((x_umbr01(1) + x_umbr01(end))/2);
 x01 = x01 - x_cent01;%segundo paramentro de ajuste
 
-med_max_y01 = img01(:,x_max_ancho01);
+med_max_y01 = img01(:,x_max_alto01_index);
 y01 = 0:(rows(img01)-1);
 
 y_umbr01 = find(med_max_y01 > 0.3);
@@ -89,4 +93,4 @@ legend("Medición", label_ajustes, "location", "northwest");
 legend("boxoff");
 
 
-endfor
+##endfor
