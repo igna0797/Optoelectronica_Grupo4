@@ -62,7 +62,8 @@ y01 = y01 - y_cent01;%segundo paramentro de ajuste
 
 %calcula el err cuad mmedio entre una gausseana y 'x'
 %gausseana es la definida como el haz gausseano cuando varia x y =0 y viceversa
-##parametros01 = fminsearch(@(param) err_cuad_gauss(param, [x01; med_max_x01]), [1, 1]);
+
+parametros01 = fminsearch(@(param) err_cuad_gauss(param, [x01; med_max_x01]), [1, 1]);
 
 %cuidado puedo converger a minimo local o algo asi
 
