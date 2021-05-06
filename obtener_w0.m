@@ -1,5 +1,5 @@
 clear all;close all;clc;
-pkg load symbolic
+##pkg load symbolic
 
 syms w wo lambda z
 f=w^2==wo^2*(1+(z*lambda/pi/wo^2)^2)
@@ -46,3 +46,4 @@ grid on
 xlabel('z [mm]');
 ylabel('w [\mum]');
 axis([0 350 440 510])
+save w_analitico "wpromedio"
