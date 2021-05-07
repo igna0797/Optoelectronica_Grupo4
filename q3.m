@@ -25,7 +25,8 @@ for i = 1:length(z)
     endif
  
     q_s_inv(i,1) = (matriz_abcd(2,1) + matriz_abcd(2,2)*q_0_inv)/(matriz_abcd(1,1) + matriz_abcd(1,2)*q_0_inv);
-endfor
+
+    endfor
 radio_inv_libre = real(q_s_inv);
 ancho_libre = sqrt(-lambda_0./(pi*(imag(q_s_inv))));
 
@@ -39,6 +40,40 @@ xlabel("z / m");
 ylabel("w(z) / um");
 xlim([0, 0.32]);
 
+L2=z(1,find(ancho_libre==min(ancho_libre)))-L1;
+
+w_0=453.3e-6;
+lambda_0=632.8e-9;
+L1=50e-3;
+f1=250e-3;
+f2=-6e-3;
+
+z = 0:0.1e-3:L1+L2+10e-3; 
+q_0_inv = -1i*(lambda_0/(pi*(w_0^2)));
+q_s_inv = [];
+for i = 1:length(z)
+    if (z(1,i) <= L1)
+        matriz_abcd = [1, z(1,i); 0, 1];
+    elseif ((z(1,i) > L1) && (z(1,i) <= (L1 + L2)))
+        matriz_abcd = [1, (z(1,i) - L1); 0, 1]*[1, 0; (-1/f1), 1]*[1, L1; 0, 1];
+    else
+        matriz_abcd = [1, (z(1,i) - L1 - L2); 0, 1]*[1, 0; (-1/f2), 1]*[1, L2; 0, 1]*[1, 0; (-1/f1), 1]*[1, L1; 0, 1];
+    endif
+ 
+    q_s_inv(i,1) = (matriz_abcd(2,1) + matriz_abcd(2,2)*q_0_inv)/(matriz_abcd(1,1) + matriz_abcd(1,2)*q_0_inv);
+endfor
+radio_inv_libre = real(q_s_inv);
+ancho_libre = sqrt(-lambda_0./(pi*(imag(q_s_inv))));
+
+figure(21);
+hold on;
+plot(z, ancho_libre*1e6, "r", "linewidth", 2);
+grid on;
+legend("Calculo ABCD", "location", "northwest");
+legend("boxoff");
+xlabel("z / m");
+ylabel("w(z) / um");
+xlim([0, 0.32]);
 ##
 ##
 ##
