@@ -21,40 +21,43 @@ L_c = 235e-3;
 tau_rt = 2*L_c/c;
 #ajuste R_p y tau_p 143 147 2101
 corrimiento=147;
+corrimiento=100;
 
-##Tiempo2=Tiempo(corrimiento:end,1).-Tiempo(corrimiento,1);;
-##Bombeo2=Bombeo(corrimiento:end,1);
-##parametros01 = fminsearch(@(param) err_quad_bombeo(param, [Tiempo2, Bombeo2]), [9,130e-6])#[1e19,100e-6])
-##
+Tiempo2=Tiempo(corrimiento:end,1).-Tiempo(corrimiento,1);;
+Bombeo2=Bombeo(corrimiento:end,1);
+parametros01 = fminsearch(@(param) err_quad_bombeo(param, [Tiempo2, Bombeo2]), [9,130e-6])#[1e19,100e-6])
 
 
-##R=parametros01(1).*(Tiempo2./parametros01(2)).^2.*exp(-2.*Tiempo2./parametros01(2));
+#parametros01(2)=1.4383e-04;
+R=parametros01(1).*(Tiempo2./parametros01(2)).^2.*exp(-2.*Tiempo2./parametros01(2));
+figure();
+hold on;
+plot(Tiempo2/1e-6, R/max(R), "b");
+plot(Tiempo2/1e-6, Bombeo2/max(Bombeo2), "g");
+grid on;
+xlabel("t / us");
+legend("Laser", "Bombeo");
+#
+ #falta normalizar las variables a graficar
 ##figure();
 ##hold on;
-##plot(Tiempo2/1e-6, R/max(R), "b");
-##plot(Tiempo2/1e-6, Bombeo2/max(Bombeo2), "g");
-##grid on;
-##xlabel("t / us");
-##legend("Laser", "Bombeo");
-
- #falta normalizar las variables a graficar
-##figure(1);
-##hold on;
-##plot(Tiempo/1e-6, Laser, "b");
-##plot(Tiempo/1e-6, Bombeo, "g");
+##plot(Tiempo/1e-6, Laser/max(Laser), "b");
+##plot(Tiempo/1e-6, Bombeo/max(Bombeo), "g");
 ##grid on;
 ##xlabel("t / us");
 ##legend("Laser", "Bombeo");
 
 TI = 500e-6/tau_rt;
-tau_p= 1.1383e-04;
+#tau_p= 1.1383e-04;
+#tau_p= 1.4383e-04;
+tau_p=  parametros01(2);
 ##beta = 0.014;
 ##R_p = 0.975e25;
 
-beta =  17e-3
-R_p =    0.905e+25
-
-[t, P, g] = qswitch(TI, beta, I_s, R_p, tau_p);
+beta =  18.2e-3
+R_p =    1.1e+25
+retardo=Tiempo(corrimiento,1);
+[t, P, g] = qswitch(TI, beta, I_s, R_p, tau_p,retardo);
 figure();
 hold on;
 plot(Tiempo/1e-6, Laser/max(Laser), "b");

@@ -1,4 +1,4 @@
-function [t, P, g] = qswitch(TI, betta, I_s, R_p, tau_p)
+function [t, P, g] = qswitch(TI, betta, I_s, R_p, tau_p,retardo)
 
     # Definicion de constante
     h = 6.62e-34; #J*s  - constante de Planck 
@@ -42,9 +42,9 @@ function [t, P, g] = qswitch(TI, betta, I_s, R_p, tau_p)
 #    [t, VI] = ode45(@(t, VI) dtqswitch(t, VI, param), [0:10:TI], VI_0);
 #    [t, VI] = ode23(@(t, VI) dtqswitch(t, VI, param), [0 TI], VI_0);
 #    [t, VI] = ode15s(@(t, VI) dtqswitch(t, VI, param), [0 TI], VI_0);
-    ret=2.92e-05/tau_rt;
+    ret_n=retardo/tau_rt;
     #a=
-    t = (ret:10:TI);
+    t = (ret_n:10:TI);
     lsode_options("integration method", "stiff");
     [VI, ~, ~] = lsode(@(VI, t) dtqswitch(t, VI, param), VI_0, t);
 
