@@ -38,7 +38,9 @@ plot(Tiempo2/1e-6, R/max(R), "b");
 plot(Tiempo2/1e-6, Bombeo2/max(Bombeo2), "g");
 grid on;
 xlabel("t / us");
-legend("Laser", "Bombeo");
+legend("Ajuste", "Bombeo");
+text(300,0.6,"\\tau_p=1.17e-4","fontsize",15,"fontweight","bold")
+
 #
  #falta normalizar las variables a graficar
 ##figure();
@@ -74,6 +76,7 @@ grid on;
 xlabel("t / us");
 legend("Medido", "Simulado", "Ganancia");
 xlim([0,500])
+text(300,0.6,"\\beta=23e-3 \n\\tau_p =1.17e-4 \nR_p=3.13e+25","fontsize",15,"fontweight","bold")
 
 normp=max(P);
 normg=max(g);
