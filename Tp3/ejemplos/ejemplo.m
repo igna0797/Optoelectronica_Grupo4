@@ -101,7 +101,7 @@ title("Comparacion implementacion filtros");
 
 #genero el filtro de la fibra
 Delta_tau = Dispersion*1e-12;
-lmax=fminsearch(@(L) abs(f_Dispercion(L)*-2*tau_f),[0])
+lmax=fminsearch(@(L) abs(f_Dispercion(L)-2*tau_f*1e12),[0])
 f_c_f = 0.35/((2e-9 + Delta_tau)/2);
 BT_f = f_c_f*T_s;
 #para que la frecuencia de corte sea la de -3dB
