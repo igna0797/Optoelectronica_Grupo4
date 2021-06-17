@@ -4,6 +4,7 @@ clear all;
 
 pkg load signal;
 pkg load communications;
+source dispersiones.m
 
 T_s = 10e-12;
 t = 0:T_s:20e-9;
@@ -99,7 +100,8 @@ title("Comparacion implementacion filtros");
 
 
 #genero el filtro de la fibra
-Delta_tau = 5.5e-9;
+Delta_tau = Dispersion*1e-12;
+lmax=fminsearch(@(L) abs(f_Dispercion(L)*-2*tau_f),[0])
 f_c_f = 0.35/((2e-9 + Delta_tau)/2);
 BT_f = f_c_f*T_s;
 #para que la frecuencia de corte sea la de -3dB
