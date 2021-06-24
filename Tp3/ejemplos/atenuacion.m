@@ -14,8 +14,9 @@ lambda=lambda_0-ancho_espectral/2:.01:lambda_0+ancho_espectral/2+.01;
 P_consumida=Vd_max*Id_max*duty
 P_emitida=eff*P_consumida
 P_insertada=(1-perdidas_ins)*P_emitida
-P_insertada_dbm=mag2db(P_insertada)+30%dbm
-atenuacion=mean(0.5.*(1+abs((lambda-lambda_0)./25)))*L %db
+P_insertada_dbm=mag2db(P_insertada)/2+30%dbm
+atenuacion_db=mean(0.5.*(1+abs((lambda-lambda_0)./25)))*L %db
 
-P_salida=mag2db(P_insertada)-atenuacion %dbW
-P_salida_dbm=P_salida+30%dbm
+P_salida_dbW=mag2db(P_insertada)/2-atenuacion_db %dbW
+P_salida_dbm=P_salida_dbW+30%dbm
+P_salida=10^(P_salida_dbm/10)/1000
