@@ -7,13 +7,13 @@ b= -2.586 ;
 y=m.*x+b;
 
 figure()
-plot(datos850(:,1),datos850(:,2),"b", "linewidth", 2)
+plot(datos850(:,1)*1e-3,datos850(:,2),"b", "linewidth", 2)
 hold on;
-plot(x,sqrt(y),"r", "linewidth", 2)
-xlim([0,15e3])
+plot(x*1e-3,sqrt(y),"r", "linewidth", 2)
+xlim([0,15])
 ylim([0,8])
 grid on;
-xlabel("Forward Current (mA)");
+xlabel("Forward Current (A)");
 ylabel("Relative Radiant Intensity (A.U.)");
 legend("Datasheet","Fit");
 title("LED 850nm")
@@ -25,13 +25,15 @@ b= -1.112;
 y=m.*x+b;
 
 figure()
-plot(datos940(:,1),datos940(:,2),"b", "linewidth", 2)
+plot(datos940(:,1)*1e-3,datos940(:,2),"b", "linewidth", 2)
 hold on;
-plot(x,sqrt(y),"r", "linewidth", 2)
-xlim([0,15e3])
+plot(x*1e-3,sqrt(y),"r", "linewidth", 2)
+xlim([0,15])
 ylim([0,6])
 grid on;
-xlabel("Forward Current (mA)");
+xlabel("Forward Current (A)");
 ylabel("Relative Radiant Intensity (A.U.)");
 legend("Datasheet","Fit");
 title("LED 940nm")
+
+
